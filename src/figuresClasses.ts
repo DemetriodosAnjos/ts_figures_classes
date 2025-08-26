@@ -18,16 +18,12 @@ export class Triangle implements Figure {
 
   constructor(color: string, a: number, b: number, c: number) {
     if (a <= 0 || b <= 0 || c <= 0) {
-      throw new Error('Invalid sides: a, b, c must be > 0');
+      throw new Error('All sides must be positive numbers');
     }
 
     if (a + b <= c || a + c <= b || b + c <= a) {
-      throw new Error(
-        `Invalid triangle: sides must satisfy the triangle inequality (a + b > c,` +
-          ` a + c > b, b + c > a)`,
-      );
+      throw new Error('Invalid triangle sides');
     }
-
     this.color = color;
     this.a = a;
     this.b = b;
@@ -38,7 +34,7 @@ export class Triangle implements Figure {
     const s = (this.a + this.b + this.c) / 2;
     const area = Math.sqrt(s * (s - this.a) * (s - this.b) * (s - this.c));
 
-    return Math.floor(area * 100) / 100;
+    return Math.round(area * 100) / 100;
   }
 }
 
@@ -61,7 +57,7 @@ export class Circle implements Figure {
   getArea(): number {
     const area = Math.PI * this.radius ** 2;
 
-    return Math.floor(area * 100) / 100;
+    return Math.round(area * 100) / 100;
   }
 }
 
@@ -87,13 +83,17 @@ export class Rectangle implements Figure {
   getArea(): number {
     const area = this.width * this.height;
 
-    return Math.floor(area * 100) / 100;
+    return Math.round(area * 100) / 100;
   }
 }
 
 // ✅ Função utilitária (exportada também)
 export function getInfo(fig: Figure): string {
-  const roundedArea = Math.floor(fig.getArea() * 100) / 100;
+  const area = fig.getArea();
 
-  return `A ${fig.color} ${fig.shape} - ${roundedArea.toFixed(2)}`;
+  if (Number.isInteger(area)) {
+    return `A ${fig.color} ${fig.shape} - área: ${area}`;
+  }
+
+  return `A ${fig.color} ${fig.shape} - área: ${area.toFixed(2)}`;
 }
