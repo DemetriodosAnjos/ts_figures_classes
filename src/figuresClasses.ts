@@ -8,7 +8,7 @@ export interface Figure {
 export class Triangle implements Figure {
   color: string;
 
-  shape = 'triângulo';
+  shape = 'triangle';
 
   a: number;
 
@@ -18,11 +18,14 @@ export class Triangle implements Figure {
 
   constructor(color: string, a: number, b: number, c: number) {
     if (a <= 0 || b <= 0 || c <= 0) {
-      throw new Error('Os lados devem ser maiores que 0');
+      throw new Error('Invalid sides: a, b, c must be > 0');
     }
 
     if (a + b <= c || a + c <= b || b + c <= a) {
-      throw new Error('Os lados fornecidos não formam um triângulo válido');
+      throw new Error(
+        `Invalid triangle: sides must satisfy the triangle inequality (a + b > c,` +
+          ` a + c > b, b + c > a)`,
+      );
     }
 
     this.color = color;
@@ -35,7 +38,7 @@ export class Triangle implements Figure {
     const s = (this.a + this.b + this.c) / 2;
     const area = Math.sqrt(s * (s - this.a) * (s - this.b) * (s - this.c));
 
-    return Number(area.toFixed(2));
+    return Math.floor(area * 100) / 100;
   }
 }
 
@@ -43,20 +46,22 @@ export class Triangle implements Figure {
 export class Circle implements Figure {
   color: string;
 
-  shape = 'círculo';
+  shape = 'circle';
 
   radius: number;
 
   constructor(color: string, radius: number) {
     if (radius <= 0) {
-      throw new Error('O raio deve ser maior que 0');
+      throw new Error('Invalid radius: must be > 0');
     }
     this.color = color;
     this.radius = radius;
   }
 
   getArea(): number {
-    return Number((Math.PI * this.radius ** 2).toFixed(2));
+    const area = Math.PI * this.radius ** 2;
+
+    return Math.floor(area * 100) / 100;
   }
 }
 
@@ -64,7 +69,7 @@ export class Circle implements Figure {
 export class Rectangle implements Figure {
   color: string;
 
-  shape = 'retângulo';
+  shape = 'rectangle';
 
   width: number;
 
@@ -72,7 +77,7 @@ export class Rectangle implements Figure {
 
   constructor(color: string, width: number, height: number) {
     if (width <= 0 || height <= 0) {
-      throw new Error('A largura e altura devem ser maiores que 0');
+      throw new Error('Invalid dimensions: width and height must be > 0');
     }
     this.color = color;
     this.width = width;
@@ -80,11 +85,15 @@ export class Rectangle implements Figure {
   }
 
   getArea(): number {
-    return Number((this.width * this.height).toFixed(2));
+    const area = this.width * this.height;
+
+    return Math.floor(area * 100) / 100;
   }
 }
 
 // ✅ Função utilitária (exportada também)
 export function getInfo(fig: Figure): string {
-  return `Um ${fig.shape} ${fig.color} - área: ${fig.getArea()}`;
+  const roundedArea = Math.floor(fig.getArea() * 100) / 100;
+
+  return `A ${fig.color} ${fig.shape} - ${roundedArea.toFixed(2)}`;
 }

@@ -170,18 +170,18 @@ describe('Function "getInfo"', () => {
   test('should return correct information about a triangle', () => {
     const redTriangle = new Triangle('red', 10, 12, 15);
 
-    expect(getInfo(redTriangle)).toBe('Um triângulo red - área: 59.81');
+    expect(getInfo(redTriangle)).toBe('A red triangle - área: 59.81');
   });
 
   test('should return correct information about a circle', () => {
     const greenCircle = new Circle('green', 13.31);
 
-    expect(getInfo(greenCircle)).toBe('Um círculo green - área: 556.55');
+    expect(getInfo(greenCircle)).toBe('A green circle - área: 556.55');
   });
 
   test('should return correct information about a rectangle', () => {
     const blueRectangle = new Rectangle('blue', 9, 17);
 
-    expect(getInfo(blueRectangle)).toBe('Um retângulo blue - área: 153');
+    expect(getInfo(blueRectangle)).toBe('A blue rectangle - área: 153');
   });
 });
